@@ -1,0 +1,7 @@
+Change Log for ClientStartUp.java
+=============================
+
+6/2/2016
+	- 1st version released
+	- 
+-----------------------------
