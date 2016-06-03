@@ -3,11 +3,12 @@
  */
 package server;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import debug.JLog;
+import debug.JLogImpl;
 
 
 /**
@@ -21,39 +22,39 @@ public class JJServerImpl implements SuperAwesomeServer{
 	
 	private boolean debugging = false;
 	private int PORT_NUMBER;
-	private PrintStream out = System.out;
 	private int threadCount;
 	
 	public JJServerImpl(){
 		//do nothing
 	}
 	
-	public void startServer(){		
+	public void startServer(){
+		JLog log = JLogImpl.getLog();
 		threadCount = 0;
 		//establish server ports and connections
 		try {
 			@SuppressWarnings("resource")
 			ServerSocket ssock = new ServerSocket(PORT_NUMBER);
-			if (debugging) out.println("created ServerSocket...waiting for first connection");
+			if (debugging) log.logDEBUGMessage("created ServerSocket...waiting for first connection");
 			
 			//continues looping for infinite connections to server
 			while (true){
 				//accept a connection
 				Socket sock = ssock.accept();
-				if (debugging) out.println("accepted incoming connection: " + sock.getPort());
+				if (debugging) log.logDEBUGMessage("accepted incoming connection: " + sock.getPort());
 				
 				//initialize thread
-				Thread newThread = new Thread(new JJThread(Integer.toString(threadCount), sock, out, debugging));
-				if (debugging) out.println("created thread " + threadCount + " succesfully");
+				Thread newThread = new Thread(new JJThread(Integer.toString(threadCount), sock, debugging));
+				if (debugging) log.logDEBUGMessage("created thread " + threadCount + " succesfully");
 				
 				//start thread
 				newThread.start();
-				if (debugging) out.println("started thread " + threadCount);
+				if (debugging) log.logDEBUGMessage("started thread " + threadCount);
 				
 				threadCount++;
 			}
 		} catch (IOException e) {
-			out.println("Failed to establish socket.");
+			log.logERRORMessage("Failed to establish socket.");
 		}
 	}
 	
@@ -74,22 +75,5 @@ public class JJServerImpl implements SuperAwesomeServer{
 	
 	public boolean debugEnabled(){
 		return debugging;
-	}
-	
-	public PrintStream getOutput(){
-		return out;
-	}
-	
-	public void setOutputFile(String fileName){
-		if (fileName.equals("none")){
-			//do nothing
-		}
-		else{
-			try {
-				out = new PrintStream(fileName);
-			} catch (FileNotFoundException e) {
-				out.println("Cannot create log file with the name: " + fileName);
-			}
-		}
 	}
 }
