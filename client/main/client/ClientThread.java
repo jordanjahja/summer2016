@@ -14,8 +14,9 @@ public class ClientThread implements Runnable {
 	private String hostName;
 	private int portNumber;
 	private Socket s;
-	private DataInputStream disClient;
+	private DataOutputStream dosClient;
 	private DataInputStream disServer;
+	private InputStreamReader clientIn;	//command line input
 	private String responseFromServer;
 	private String inputFromClient;
 	
@@ -29,11 +30,13 @@ public class ClientThread implements Runnable {
 	public void run() {
 		try {
 			//DataOutputStream dosServer = new DataOutputStream(s.getOutputStream());	//Output to server
-			disClient = new DataInputStream(System.in);
+			dosClient = new DataOutputStream(s.getOutputStream());
 			disServer = new DataInputStream(s.getInputStream());
+			clientIn = new InputStreamReader(System.in);
 		
-			inputFromClient = disClient.readUTF();
-			responseFromServer = disServer.readUTF();
+			inputFromClient = clientIn.toString();	//get string from command line
+			dosClient.writeUTF(inputFromClient);	//send string from command line to server
+			responseFromServer = disServer.readUTF();	//get server reply
 			
 			while(responseFromServer != null) {
 				System.out.print("Server: " + responseFromServer);

@@ -6,10 +6,20 @@ Change Log for Client
 	- 1st version released
 -----------------------------
 6/3/2016
+General
+- Added Client.java, ClientConnect.java, ClientThread.java
+- Added debugging messages throughout code
+
 	ClientStartUp.java
-	- ()
+	- Integrated the interface
+	
 	Client.java
 	- Added interface methods
 	- Moved socket connection code here
+	- Tweaked logging
+	
 	ClientConnect.java
 	- Added interface elements
+	
+	ClientThread.java
+	- Added input from command line and sending messages to server, waiting for reply from server
