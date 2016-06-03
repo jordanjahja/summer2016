@@ -2,7 +2,7 @@
  * LAST REVISION: 6/3/2016
  */
 
-package client;
+package main;
 
 import java.io.*;
 import java.net.*;
@@ -53,11 +53,8 @@ public class Client implements ClientConnect {
 			Thread newClientThread = new Thread(new ClientThread(hostName, portNumber, s));
 			if(debug) System.out.println("DEBUG: Created a new client thread."); 
 			logElements[2] = "Client.java: Sucessfully created a new client thread";
-		} catch(SocketException se) {
+		} catch( IOException se) {
 			System.out.println("Error with creating socket.");
-		} catch(UnknownHostException uhe) {
-			System.out.println("Error connecting to " + hostName);
-			System.exit(1);
 		}
 	}
 
@@ -79,6 +76,10 @@ public class Client implements ClientConnect {
 	@Override
 	public void setLogMethod(String logMethod) {
 		this.logMethod = logMethod;
+	}
+	
+	public static ClientConnect getClient(){
+		return client;
 	}
 }
 
