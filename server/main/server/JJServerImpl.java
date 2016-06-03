@@ -28,36 +28,29 @@ public class JJServerImpl implements SuperAwesomeServer{
 		//do nothing
 	}
 	
-	public void startServer(){	
-		//change all outputs to log.txt if enabled by user
-		if (!debugging){
-			try {
-				out = new PrintStream("log.txt");
-			} catch (FileNotFoundException e) {
-				System.out.println("Cannot find or write to log.txt.");
-				System.out.println("Writing to standard output for debugging.");
-			}
-		}
-		
+	public void startServer(){		
 		threadCount = 0;
 		//establish server ports and connections
 		try {
 			@SuppressWarnings("resource")
 			ServerSocket ssock = new ServerSocket(PORT_NUMBER);
-			if (!debugging) out.println("created ServerSocket");
+			if (debugging) out.println("created ServerSocket...waiting for first connection");
 			
 			//continues looping for infinite connections to server
 			while (true){
+				//accept a connection
 				Socket sock = ssock.accept();
-				if (!debugging) out.println("accepted incoming connection: " + sock.getPort());
+				if (debugging) out.println("accepted incoming connection: " + sock.getPort());
 				
+				//initialize thread
 				Thread newThread = new Thread(new JJThread(Integer.toString(threadCount), sock, out, debugging));
-				if (!debugging) out.println("created thread " + threadCount + " succesfully");
+				if (debugging) out.println("created thread " + threadCount + " succesfully");
+				
+				//start thread
+				newThread.start();
+				if (debugging) out.println("started thread " + threadCount);
 				
 				threadCount++;
-				
-				newThread.start();
-				if (!debugging) out.println("started thread " + threadCount);
 			}
 		} catch (IOException e) {
 			out.println("Failed to establish socket.");
@@ -85,5 +78,18 @@ public class JJServerImpl implements SuperAwesomeServer{
 	
 	public PrintStream getOutput(){
 		return out;
+	}
+	
+	public void setOutputFile(String fileName){
+		if (fileName.equals("none")){
+			//do nothing
+		}
+		else{
+			try {
+				out = new PrintStream(fileName);
+			} catch (FileNotFoundException e) {
+				out.println("Cannot create log file with the name: " + fileName);
+			}
+		}
 	}
 }

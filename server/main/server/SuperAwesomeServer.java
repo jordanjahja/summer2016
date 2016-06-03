@@ -23,4 +23,10 @@ public interface SuperAwesomeServer {
 	
 	/**output for server*/
 	public PrintStream getOutput();
+	
+	/**Specifies where server admin wants to have debug output. none or null goes to
+	 * console
+	 * @param fileName
+	 */
+	public void setOutputFile(String fileName);
 }

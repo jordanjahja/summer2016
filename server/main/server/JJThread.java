@@ -33,18 +33,18 @@ public class JJThread implements Runnable{
 			//setup input and output streams
 			input = new DataInputStream(sock.getInputStream());
 			output = new DataOutputStream(sock.getOutputStream());
-			if (!debugging) out.println("thread " + threadID + " initialized input and output streams.");
+			if (debugging) out.println("thread " + threadID + " initialized input and output streams.");
 			
 			//read user input
 			String word = input.readUTF();
-			if (!debugging) out.println("thread " + threadID + " got message from client");
+			if (debugging) out.println("thread " + threadID + " got message from client");
 			
 			output.writeUTF(word.toUpperCase());
-			if (!debugging) out.println("thread " + threadID + " sent message to client");
+			if (debugging) out.println("thread " + threadID + " sent message to client");
 		
 			//close socket
 			sock.close();
-			if (!debugging) out.println("thread " + threadID + "finishes");
+			if (debugging) out.println("thread " + threadID + "finishes");
 		} catch (IOException e) {
 			out.println("Something went wrong with thread " + threadID);
 		}
