@@ -1,7 +1,15 @@
-Change Log for ClientStartUp.java
+Change Log for Client
 =============================
 
 6/2/2016
+	ClientStartUp.java
 	- 1st version released
-	- 
 -----------------------------
+6/3/2016
+	ClientStartUp.java
+	- ()
+	Client.java
+	- Added interface methods
+	- Moved socket connection code here
+	ClientConnect.java
+	- Added interface elements
