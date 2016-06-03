@@ -8,8 +8,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import debug.JLog;
-import debug.JLogImpl;
+import logger.JLog;
+import logger.JLogImpl;
 
 public class JJThread implements Runnable{
 	
@@ -23,7 +23,7 @@ public class JJThread implements Runnable{
 	
 	public JJThread(String threadID, Socket sock, boolean debugging){
 		this.sock = sock;
-		this.log = JLogImpl.getLog();
+		this.log = JLogImpl.getSLog();
 		this.debugging = debugging;
 		this.threadID = threadID;
 	}
@@ -35,20 +35,20 @@ public class JJThread implements Runnable{
 			//setup input and output streams
 			input = new DataInputStream(sock.getInputStream());
 			output = new DataOutputStream(sock.getOutputStream());
-			if (debugging) log.logDEBUGMessage("thread " + threadID + " initialized input and output streams.");
+			if (debugging) log.sLogDEBUGMessage("thread " + threadID + " initialized input and output streams.");
 			
 			//read user input
 			String word = input.readUTF();
-			if (debugging) log.logDEBUGMessage("thread " + threadID + " got message from client");
+			if (debugging) log.sLogDEBUGMessage("thread " + threadID + " got message from client");
 			
 			output.writeUTF(word.toUpperCase());
-			if (debugging) log.logDEBUGMessage("thread " + threadID + " sent message to client");
+			if (debugging) log.sLogDEBUGMessage("thread " + threadID + " sent message to client");
 		
 			//close socket
 			sock.close();
-			if (debugging) log.logDEBUGMessage("thread " + threadID + "finishes");
+			if (debugging) log.sLogDEBUGMessage("thread " + threadID + "finishes");
 		} catch (IOException e) {
-			log.logERRORMessage("Something went wrong with thread " + threadID);
+			log.sLogERRORMessage("Something went wrong with thread " + threadID);
 		}
 	}
 	

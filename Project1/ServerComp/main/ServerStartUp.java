@@ -3,8 +3,8 @@
  */
 package main;
 
-import debug.JLog;
-import debug.JLogImpl;
+import logger.JLog;
+import logger.JLogImpl;
 
 /**
  * starts up the server
@@ -23,7 +23,7 @@ public class ServerStartUp {
 		//initialize the server, change the implementation if a 
 		//better one is created.
 		SuperAwesomeServer server = JJServerImpl.getServer();
-		JLog log = JLogImpl.getLog();
+		JLog log = JLogImpl.getSLog();
 		
 		System.out.println("Server started.");
 		
@@ -33,7 +33,7 @@ public class ServerStartUp {
 		server.setPortNumber(Integer.parseInt(args[1]));
 		
 		//specify where the output goes
-		log.setLogFile(args[2]);
+		log.setSLogFile(args[2]);
 		
 		//turns on debugging
 		if (args[0].equals("on")){

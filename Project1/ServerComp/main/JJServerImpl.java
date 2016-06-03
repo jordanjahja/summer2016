@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import debug.JLog;
-import debug.JLogImpl;
+import logger.JLog;
+import logger.JLogImpl;
 
 
 /**
@@ -29,32 +29,32 @@ public class JJServerImpl implements SuperAwesomeServer{
 	}
 	
 	public void startServer(){
-		JLog log = JLogImpl.getLog();
+		JLog log = JLogImpl.getSLog();
 		threadCount = 0;
 		//establish server ports and connections
 		try {
 			@SuppressWarnings("resource")
 			ServerSocket ssock = new ServerSocket(PORT_NUMBER);
-			if (debugging) log.logDEBUGMessage("created ServerSocket...waiting for first connection");
+			if (debugging) log.sLogDEBUGMessage("created ServerSocket...waiting for first connection");
 			
 			//continues looping for infinite connections to server
 			while (true){
 				//accept a connection
 				Socket sock = ssock.accept();
-				if (debugging) log.logDEBUGMessage("accepted incoming connection: " + sock.getPort());
+				if (debugging) log.sLogDEBUGMessage("accepted incoming connection: " + sock.getPort());
 				
 				//initialize thread
 				Thread newThread = new Thread(new JJThread(Integer.toString(threadCount), sock, debugging));
-				if (debugging) log.logDEBUGMessage("created thread " + threadCount + " succesfully");
+				if (debugging) log.sLogDEBUGMessage("created thread " + threadCount + " succesfully");
 				
 				//start thread
 				newThread.start();
-				if (debugging) log.logDEBUGMessage("started thread " + threadCount);
+				if (debugging) log.sLogDEBUGMessage("started thread " + threadCount);
 				
 				threadCount++;
 			}
 		} catch (IOException e) {
-			log.logERRORMessage("Failed to establish socket.");
+			log.sLogERRORMessage("Failed to establish socket.");
 		}
 	}
 	
