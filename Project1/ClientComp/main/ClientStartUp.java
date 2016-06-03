@@ -2,7 +2,7 @@
  * LAST REVISION: 6/2/2016
  */
 
-package main;
+package client;
 
 import java.io.*;
 import java.net.*;
