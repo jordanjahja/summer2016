@@ -23,3 +23,15 @@ General
 	
 	ClientThread.java
 	- Added input from command line and sending messages to server, waiting for reply from server
+-----------------------------
+6/4/2016
+General
+- ClientThread.java and ClientStartUp.java becomes obsolete
+
+Client.java
+- Now has the following functionality: Sends and receives a single message to client, prints out response from server then exits the program
+- Client has option to choose from showing debugging messages at all and if chosen so, to display in console or in a text file
+- Implemented interface "ClientConnect"
+- Added connection establishment via socket
+- Added communication between client and server for messaging
+- Implemented logging method from logger package
